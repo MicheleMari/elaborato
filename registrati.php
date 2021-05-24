@@ -57,13 +57,22 @@
         float: right;
       }
       
-      #content{
-        width:40%;
-      }
-      
       #content a{
         color: black;
       }
+      
+      #content a:hover{
+        color: #04AA6D;
+      }
+
+        .footer {
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          background-color: #f1f1f1;
+          text-align: center;
+        }
 
     </style>
     
@@ -88,30 +97,30 @@
         
         <br>
         
-          <div align="center">
+          <div align="center" id="content">
             <?php
-
-                $nome = $_POST["nome"];
-                $cognome = $_POST["cognome"];
-                $data_nascita = $_POST["data_nascita"];
-                $cap = $_POST["cap"];
-                $citta = $_POST["citta"];
-                $email = $_POST["email"];
-                $pass = $_POST["pass"];
+                session_start();
+                
+                $_SESSION['Nome'] = $nome = $_POST["nome"];
+                $_SESSION['Cognome'] = $cognome = $_POST["cognome"];
+                $_SESSION['DataNascita'] = $data_nascita = $_POST["data_nascita"];
+                $_SESSION['CAP'] = $cap = $_POST["cap"];
+                $_SESSION['Citta'] = $citta = $_POST["citta"];
+                $_SESSION['Email'] = $email = $_POST["email"];
+                $_SESSION['Pass'] = $pass = $_POST["pass"];
                 
                 $conn_serv = mysql_connect("localhost", "root", "");
                 
                 $conn_DB = mysql_select_db("my_mari");
                 
-                $inserimento_ut = "INSERT INTO utenti (Nome,Cognome,DataNascita,CAP,Citta,Email,Pass)";
-                $inserimento_ut .= "VALUES ('$nome','$cognome','$data_nascita','$cap','$citta','$email','$pass')";
-                
+                $inserimento_ut = "INSERT INTO utenti(Nome, Cognome, DataNascita, Citta, CAP, Email, Pass) VALUES ('$nome','$cognome','$data_nascita','$citta',$cap,'$email','$pass')";
+
                 $tab = mysql_query($inserimento_ut);
-                
+
                 if(!$tab){
-                	echo "<h2>Inserimento non Riuscito</h2>";
+                    echo "<h2>Inserimento non Riuscito</h2>";
                 } else 
-                	echo "header('../dashboard/dashboard.php')";
+                    header('location: ../dashboard/dashboard.php');         
             ?>
           </div>
         
@@ -120,4 +129,4 @@
         </div>
     
   </body>
-</html>
+</html>
