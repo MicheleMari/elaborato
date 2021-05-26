@@ -101,13 +101,27 @@
             <?php
                 session_start();
                 
-                $_SESSION['Nome'] = $nome = $_POST["nome"];
-                $_SESSION['Cognome'] = $cognome = $_POST["cognome"];
-                $_SESSION['DataNascita'] = $data_nascita = $_POST["data_nascita"];
-                $_SESSION['CAP'] = $cap = $_POST["cap"];
-                $_SESSION['Citta'] = $citta = $_POST["citta"];
-                $_SESSION['Email'] = $email = $_POST["email"];
-                $_SESSION['Pass'] = $pass = $_POST["pass"];
+                
+               	$nome = $_POST["nome"];
+                $_SESSION['Nome'] = $nome;                
+                
+                $cognome = $_POST["cognome"];
+                $_SESSION['Cognome'] = $cognome;
+                
+                $data_nascita = $_POST["data_nascita"];
+                $_SESSION['Data di nascita'] = $data_nascita;
+                
+                $cap = $_POST["cap"];
+                $_SESSION['CAP'] = $cap;
+                
+                $citta = $_POST["citta"];
+                $_SESSION['Citta'] = $citta;
+                
+                $email = $_POST["email"];
+                $_SESSION['Email'] = $email;
+                
+                $pass = $_POST["pass"];
+                $_SESSION['Pass'] = $pass;
                 
                 $conn_serv = mysql_connect("localhost", "root", "");
                 
@@ -118,9 +132,21 @@
                 $tab = mysql_query($inserimento_ut);
 
                 if(!$tab){
-                    echo "<h2>Inserimento non Riuscito</h2>";
+                    echo "<h2>Errore di registrazione o Email gi&agrave; registrata</h2>";
+                    echo "<h3><a href=\"registrati.html\">REGISTRATI</a></h3>";
+                    echo "<h4>oppure</h4>";
+                    echo "<h3><a href=\"login/login.html\">ACCEDI</a></h3>";
                 } else 
-                    header('location: ../dashboard/dashboard.php');         
+                    
+                    while($rec=mysql_fetch_array()){
+                    	$_SESSION["ID"] = $rec["ID"];
+                    }
+                    
+                    $ID = $_SESSION["ID"];
+                    
+                    $_SESSION["ID"] = $ID;
+                    
+				header('location: ../login/login.html');
             ?>
           </div>
         
