@@ -31,30 +31,22 @@
           color: black;
         }
 
-        #blog_esist {
-          float: left;
-        }
-
-        #crea-blog {
-          float: right;
-        }
-
-        #temi {
+        #blog {
           font-family: Arial, Helvetica, sans-serif;
           border-collapse: collapse;
           width: 100%;
         }
 
-        #temi td, #temi th {
+        #blog td, #blog th {
           border: 1px solid #ddd;
           padding: 8px;
         }
 
-        #temi tr:nth-child(even){background-color: #f2f2f2;}
+        #blog tr:nth-child(even){background-color: #f2f2f2;}
 
-        #temi tr:hover {background-color: #ddd;}
+        #blog tr:hover {background-color: #ddd;}
 
-        #temi th {
+        #blog th {
           padding-top: 12px;
           padding-bottom: 12px;
           text-align: left;
@@ -74,7 +66,7 @@
           }
       
         .blog{
-          padding-top:5%;
+          padding-top:1%;
           width:50%;
         }
       
@@ -137,58 +129,73 @@
             </div> 
           </a>
           
+			<?php session_start() ?>
+            
           <div class="header-right">
-          	<h3 align="center">Ciao<?php echo " ".$nome ?></h3>
+          	<h3 align="center">Ciao<?php echo " ".$_SESSION['Nome']; ?></h3>
             <a class="active">Dashboard</a>
-            <a href="login/login.html">Informazioni profilo</a>
+            <a href="informazioni/informazioni_ut.php">Informazioni utente</a>
             <a href="../">Logout</a>
           </div>
         </div>
         
-          <div align="center">
-            <div class="blog" align="center">
-                <div id="blog_esist">
-                  <h3>BLOG ESISTENTI</h3>
-				<table id="temi">
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Personalizzabile</th>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Sportivo</td>
-                    <td>Si</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Business</td>
-                    <td>Si</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Semplice</td>
-                    <td>No</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Elegante</td>
-                    <td>Si</td>
-                  </tr>
-              </table>
-                </div>
+             <div align="center">
+      			<div class="blog" align="center">
+      
+            <br>
+        
+        <?php
+       
+       		$ris_conn = mysql_connect("localhost","root","");
+            
+            $select_DB = mysql_select_db("my_mari");
+            
+            $ID = $_SESSION['ID'];
+            
+            $query = "SELECT * FROM blog WHERE CodiceUtente = $ID";
+            
+            $tab = mysql_query($query);
+
+              echo "
+
+                              <div id=\"blog_esist\">
+                              <h3>BLOG CREATI</h3>
+                              <table id=\"blog\">
+                              <tr>
+                                  <th>Dominio</th>
+                                  <th>Tipo di blog</th>
+                                  <th>Tema usato</th>
+                              </tr>
+                       ";
+
+                while($rec = mysql_fetch_array($tab)){
+
+                  echo "<tr>";
+                      echo "<td>".$rec["Dominio"]."</td>";
+                      echo "<td>".$rec["TipoBlog"]."</td>";
+                      echo "<td>".$rec["TemaUsato"]."</td>";
+                  echo "</tr>";
+
+                }
+
+                  echo "</table>";
+                 echo "</div>";
+                 
+               echo "<br>";
+        ?>
+                
    				<br>
+                
               <div id="crea-blog" align="center">
-              	  <br><br><br><br><br><br>
-                  <button><a  href="crea_nuovo_b/nuovo_b.html"><h3>CREA NUOVO BLOG</h3></a></button>
+              	  <br>
+                  <button><a  href="crea_nuovo_b/nuovo_b.php"><h3>CREA NUOVO BLOG</h3></a></button>
               </div>
              </div>
          	</div>
-            
             
         <div class="footer">
           <p>&copy;Copyright, Michele Raffaele Mari</p>
         </div>
     
   </body>
-</html>
+</html>
