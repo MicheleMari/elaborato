@@ -198,27 +198,44 @@
         
         <?php
         
-        	session_start();
-        
-        	$tipo_blog = $_POST["tipo_blog"];
-            $dominio = $_POST["dominio"];
-            $tipo_tema = $_POST["tipo_tema"];
-            $codice_ut = $_SESSION["ID"];
-        	
-        	$ris_conn = mysql_connect("localhost","root","");
-            
-            $select_db = mysql_select_db("my_mari");
-            
-            $query = "INSERT INTO blog(Dominio,TipoBlog,TemaUsato,CodiceUtente) VALUES('$dominio.bloggher.it','$tipo_blog','$tipo_tema', '$codice_ut')";
-        	$tab = mysql_query($query);
-           
-            if(!$tab)
-            	echo "<h1>Nome Dominio non disponibile</h1>";
-            else{
-            	
-                header("Location: ../dashboard.php");
+                session_start();
+
+                $tipo_blog = $_POST["tipo_blog"];
+                $dominio = $_POST["dominio"];
+                $tipo_tema = $_POST["tipo_tema"];
+                $codice_ut = $_SESSION["ID"];
+
+                $ris_conn = mysql_connect("localhost","root","");
+
+                $select_db = mysql_select_db("my_mari");
+
+                $tema = "SELECT * FROM temi WHERE Nome='$tipo_tema'";
+                $richiesta_IDTema = mysql_query($tema);
                 
-              }
+                if(!$richiesta_IDTema){
+
+                    echo "<h1>Impossibile recuperare il valore ".mysql_error()."<h1>";
+
+                }else{
+
+                  while($rec = mysql_fetch_array($richiesta_IDTema)){
+						
+                        $IDtema = $rec["ID"];
+                        
+                          }
+
+                  $query = "INSERT INTO blog(Dominio,TipoBlog,TemaUsato,CodiceUtente,IDTema) VALUES( '$dominio.bloggher.it','$tipo_blog','$tipo_tema',$codice_ut,$IDtema )";
+                  $tab = mysql_query($query);
+
+                  if(!$tab){
+                  	  echo mysql_error();
+                      echo "<h1>Nome Dominio non disponibile</h1>";
+                  }else{
+
+                      header("Location: ../dashboard.php");
+
+                    }
+               }
          ?>
         <div class="footer">
           <p>&copy;Copyright, Michele Raffaele Mari</p>
